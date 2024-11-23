@@ -116,18 +116,28 @@ void compare(int i, int j, int dir) {
  The sequence to be sorted starts at index position lo,
  the parameter cbt is the number of elements to be sorted.
  **/
-void bitonicMerge(int lo, int cnt, int dir) {
-	if (cnt>1) {
-		int k=cnt/2;
-		int i;
-		#pragma omp parallel for
-		for (i=lo; i<lo+k; i++)
-			compare(i, i+k, dir);
+void bitonicMerge(int lo, int cnt, int dir, int cnt_threshold) {
+	if (cnt <= 1) return;
+
+	int k = cnt/2;
+	int i;
+
+	#pragma omp parallel for
+	for(i = lo; i < lo+k; i++)
+		compare(i, i+k, dir);
+
+	if (cnt > cnt_threshold) {
 		#pragma omp task firstprivate(k, lo)
-		bitonicMerge(lo, k, dir);
+		bitonicMerge(lo, k, dir, cnt_threshold);
 		#pragma omp task firstprivate(k, lo)
-		bitonicMerge(lo+k, k, dir);
+		bitonicMerge(lo+k, k, dir, cnt_threshold);
+		#pragma omp taskwait
+		return;
+	} else {
+		bitonicMerge(lo, k, dir, cnt_threshold);
+		bitonicMerge(lo+k, k, dir, cnt_threshold);
 	}
+		
 }
 
 /** function recBitonicSort()
@@ -135,30 +145,36 @@ void bitonicMerge(int lo, int cnt, int dir) {
  its two halves in opposite sorting orders, and then
  calls bitonicMerge to make them in the same order
  **/
-void recBitonicSort(int lo, int cnt, int dir) {
-  if (cnt>1) {
-    int k=cnt/2;
+void recBitonicSort(int lo, int cnt, int dir, int cnt_threshold) {
+	if (cnt <= 1) return;
 
-	#pragma omp task firstprivate(lo, k)
-	recBitonicSort(lo, k, ASCENDING);
+	int k = cnt/2;
 
-	#pragma omp task firstprivate(lo, k)
-	recBitonicSort(lo+k, k, DESCENDING);
+	if (cnt>cnt_threshold) {
+		#pragma omp task firstprivate(lo, k)
+		recBitonicSort(lo, k, ASCENDING, cnt_threshold);
 
-	#pragma omp taskwait
-	bitonicMerge(lo, cnt, dir);
-  }
+		#pragma omp task firstprivate(lo, k)
+		recBitonicSort(lo+k, k, DESCENDING, cnt_threshold);
+
+		#pragma omp taskwait
+		bitonicMerge(lo, cnt, dir, cnt_threshold);
+	} else {
+		recBitonicSort(lo, k, ASCENDING, cnt_threshold);
+		recBitonicSort(lo+k, k, DESCENDING, cnt_threshold);
+		bitonicMerge(lo, cnt, dir, cnt_threshold);
+	}
 }
 
 /** function sort()
  Caller of recBitonicSort for sorting the entire array of length N
  in ASCENDING order
  **/
-void BitonicSort() {
+void BitonicSort(int cnt_threshold) {
 	#pragma omp parallel
 	{
 		#pragma omp single
-		recBitonicSort(0, N, ASCENDING);
+		recBitonicSort(0, N, ASCENDING, cnt_threshold);
 	}
 }
 
@@ -170,7 +186,8 @@ int main(int argc, char **argv) {
   }
   const char *input_file = argv[1];
   int num_threads = atoi(argv[2]);
-  
+  int cnt_threshold = atoi(argv[3]);
+
   char output_file[256];
   generate_output_filename(input_file, output_file);
 
@@ -196,7 +213,7 @@ int main(int argc, char **argv) {
     fscanf(fin, "%s", strings + (i * LENGTH));
 
   clock_t start = clock();
-  BitonicSort();
+  BitonicSort(cnt_threshold);
   clock_t end = clock();
 
   for (i = 0; i < N; i++)
