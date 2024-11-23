@@ -3,7 +3,7 @@ import string
 import os
 import argparse
 
-output_dir = "data" # diretorio onde vao ser guardados os arquivos
+output_dir = "inputs" # diretorio onde vao ser guardados os arquivos
 os.makedirs(output_dir, exist_ok=True)
 
 # funcao que gera uma string com um charset de um tamanho pre definido
