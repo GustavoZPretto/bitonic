@@ -117,14 +117,17 @@ void compare(int i, int j, int dir) {
  the parameter cbt is the number of elements to be sorted.
  **/
 void bitonicMerge(int lo, int cnt, int dir) {
-  if (cnt>1) {
-    int k=cnt/2;
-    int i;
-    for (i=lo; i<lo+k; i++)
-      compare(i, i+k, dir);
-    bitonicMerge(lo, k, dir);
-    bitonicMerge(lo+k, k, dir);
-  }
+	if (cnt>1) {
+		int k=cnt/2;
+		int i;
+		#pragma omp parallel for
+		for (i=lo; i<lo+k; i++)
+			compare(i, i+k, dir);
+		#pragma omp task firstprivate(k, lo)
+		bitonicMerge(lo, k, dir);
+		#pragma omp task firstprivate(k, lo)
+		bitonicMerge(lo+k, k, dir);
+	}
 }
 
 /** function recBitonicSort()
@@ -135,9 +138,15 @@ void bitonicMerge(int lo, int cnt, int dir) {
 void recBitonicSort(int lo, int cnt, int dir) {
   if (cnt>1) {
     int k=cnt/2;
-    recBitonicSort(lo, k, ASCENDING);
-    recBitonicSort(lo+k, k, DESCENDING);
-    bitonicMerge(lo, cnt, dir);
+
+	#pragma omp task firstprivate(lo, k)
+	recBitonicSort(lo, k, ASCENDING);
+
+	#pragma omp task firstprivate(lo, k)
+	recBitonicSort(lo+k, k, DESCENDING);
+
+	#pragma omp taskwait
+	bitonicMerge(lo, cnt, dir);
   }
 }
 
@@ -146,7 +155,11 @@ void recBitonicSort(int lo, int cnt, int dir) {
  in ASCENDING order
  **/
 void BitonicSort() {
-  recBitonicSort(0, N, ASCENDING);
+	#pragma omp parallel
+	{
+		#pragma omp single
+		recBitonicSort(0, N, ASCENDING);
+	}
 }
 
 /** the main program **/ 
