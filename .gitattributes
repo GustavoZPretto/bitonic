@@ -1,0 +1,2 @@
+inputs/*.in filter=lfs diff=lfs merge=lfs -text
+outputs/*.out filter=lfs diff=lfs merge=lfs -text
