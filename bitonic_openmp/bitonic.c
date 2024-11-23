@@ -10,6 +10,9 @@
 #include <string.h>
 #include <omp.h> // adicionado
 #include <time.h> // adicionado
+#include <sys/stat.h> // adicionado
+#include <sys/types.h> // adicionado
+#include <unistd.h> // adicionado
 
 long int LENGTH; 
 
@@ -190,14 +193,44 @@ int main(int argc, char **argv) {
   closefiles();
 
   // esse trecho aq debaixo adicionei tb
-  // TODO: talvez seria uma boa pratica a gente criar um diretorio (/results) pra armazenar essas infos
   // ja que a gente vai rodar no pczao (pra gente nao terq ficar monkeying around procurando essas saidas)
   double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-  printf("Input file: %s\n", input_file);
-  printf("Number of threads: %d\n", num_threads);
-  printf("Array size: %ld\n", N);
-  printf("String size: %ld\n", LENGTH);
-  printf("Time: %f seconds\n", time_spent);
+
+  // Verifica se o diretório results existe, caso contrário, cria 
+  struct stat st = {0};
+  if (stat("./results", &st) == -1) {
+      if (mkdir("./results", 0700) == -1) {
+          perror("mkdir /results");
+          exit(EXIT_FAILURE);
+      }
+  }
+  
+  // Cria nome do arquivo de resultado "{nome_do_input}-{numero_de_threads}threads.txt"
+  char *input_file_name = strrchr(argv[1], '/');
+  char result_file_name[128];
+  sprintf(result_file_name, "./results%s-%sthreads.txt", input_file_name, argv[2]);
+
+  // Caso já existe o arquivo de resultado, adiciona o tempo dessa nova run
+  if(access(result_file_name, F_OK) == 0){
+    FILE *arq = fopen(result_file_name, "a");
+    
+    fprintf(arq, "Time: %f seconds\n", time_spent);
+    
+    fclose(arq); 
+  }
+  // Caso contrário cria o arquivo do zero
+  else{
+    FILE *arq = fopen(result_file_name, "w");
+    
+    fprintf(arq, "Input file: %s\n", input_file_name);
+    fprintf(arq, "Number of threads: %d\n", num_threads);
+    fprintf(arq, "Array size: %ld\n", N);
+    fprintf(arq, "String size: %ld\n", LENGTH);
+    fprintf(arq, "Time: %f seconds\n", time_spent);
+    
+    fclose(arq);
+  }
+  
   return EXIT_SUCCESS;
 }
 

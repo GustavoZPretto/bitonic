@@ -12,7 +12,7 @@ $ ./bitonic ../data/<input_file> <num_threads>
 ```
 
 ### /bitonic_standart
-Diretório com o código padrão escrito pelo Pretto com "standart" em vez de "standard"
+Diretório com o código padrão escrito pelo Pretto com "standart" em vez de "standard" (Perdão Mr. Forgetted)
 
 ### /inputs
 Diretório com os arquivos de entrada (*.in)
