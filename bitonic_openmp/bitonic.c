@@ -65,7 +65,7 @@ void determine_string_size() {
 
   buffer[strcspn(buffer, "\n")] = '\0';
 
-  LENGTH = strlen(buffer);
+  LENGTH = strlen(buffer) + 1; // +1 para o \0 no final da string
   
   // reposiciona o ponteiro
   rewind(fin);
@@ -189,9 +189,10 @@ int main(int argc, char **argv) {
 
   // esse trecho aq debaixo adicionei tb
   double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
+  printf("Input file: %s\n", input_file);
   printf("Number of threads: %d\n", num_threads);
   printf("Array size: %ld\n", N);
-  printf("Input file: %s\n", input_file);
+  printf("String size: %ld\n", LENGTH);
   printf("Time: %f seconds\n", time_spent);
   return EXIT_SUCCESS;
 }
