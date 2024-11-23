@@ -14,11 +14,14 @@ $ ./bitonic ../data/<input_file> <num_threads>
 ### /bitonic_standart
 Diretório com o código padrão escrito pelo Pretto com "standart" em vez de "standard"
 
-### /data
-Diretório onde estão os arquivos de entrada e saída.
+### /inputs
+Diretório com os arquivos de entrada (*.in)
 
-- **Arquivos de entrada (*.in)**: Contêm os arquivos input.
-- **Arquivos de saída (*.out)**: Contêm os outputs gerados pelo programa.
+### /outputs
+Diretório com os arquivos de saída (*.out) gerados pelo bitonic
+
+### /results
+TODO: mexer em bitonic.c pra guardar os logs qnd for rodar no pczao
 
 ## generate_inputs.py
 Script para gerar arquivos de entrada baseados em parâmetros configuráveis.  

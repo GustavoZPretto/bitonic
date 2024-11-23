@@ -3,7 +3,7 @@
  * https://www.cs.duke.edu/courses/fall08/cps196.1/Pthreads/bitonic.c
  *
  *********************************************************************/
-
+// TODO: paralelizar kkkkk
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -32,17 +32,21 @@ unsigned long int powersOfTwo[] =
  a gente pega o nome do arquivo de entrada e cria um arquivo de saída com mesmo nome só que .out no final
  **/
 void generate_output_filename(const char *input_file, char *output_file) {
-  strncpy(output_file, input_file, 255);
-  output_file[255] = '\0';
+  const char *output_dir = "../outputs/";
+  const char *input_basename = strrchr(input_file, '/');
+  input_basename = (input_basename != NULL) ? input_basename + 1 : input_file; // Obtém apenas o nome do arquivo
+
+  snprintf(output_file, 255, "%s%s", output_dir, input_basename); // Prefixa o diretório de saída
+  output_file[255] = '\0'; // Garante o término seguro
+
   char *dot = strrchr(output_file, '.');
   if (dot && strcmp(dot, ".in") == 0) {
-    strcpy(dot, ".out");
+    strcpy(dot, ".out"); // Substitui a extensão .in por .out
   } else {
-    strcat(output_file, ".out");
+    strcat(output_file, ".out"); // Adiciona .out caso não exista
   }
 }
 
-// TODO: fix this
 /** procedure determine_string_size()
  eu que criei isso aqui pra gente automatizar o negocio
  ao inves de ter um define LENGHT (que diz o tamanho da string do arquivo) como constante ou passar como argumento
@@ -72,7 +76,6 @@ void determine_string_size() {
 }
 
 void openfiles(const char *input_file, const char *output_file) {
-  printf("input_file: %s\n", input_file);
   fin = fopen(input_file, "r+");
   if (fin == NULL ) {
     perror("fopen fin");
@@ -162,7 +165,6 @@ int main(int argc, char **argv) {
   // esse trecho aq de cima eu criei tb pra gente testar com diferentes arquivos de entrada e tals
 
   fscanf(fin, "%ld", &N);
-  printf("N: %ld\n", N);
   if(N > 1073741824 || powersOfTwo[(int)log2(N)] != N) {
     printf("%ld is not a valid number: power of 2 or less than 1073741824!\n", N);
     exit(EXIT_FAILURE);
@@ -188,6 +190,8 @@ int main(int argc, char **argv) {
   closefiles();
 
   // esse trecho aq debaixo adicionei tb
+  // TODO: talvez seria uma boa pratica a gente criar um diretorio (/results) pra armazenar essas infos
+  // ja que a gente vai rodar no pczao (pra gente nao terq ficar monkeying around procurando essas saidas)
   double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
   printf("Input file: %s\n", input_file);
   printf("Number of threads: %d\n", num_threads);
