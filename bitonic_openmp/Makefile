@@ -1,6 +1,7 @@
-FLAGS=-O3
+FLAGS=-O3 -fopenmp # adicionado -fopenmp pra rodar openmp
 
-CC=icc
+CC=gcc # adicionei gcc pra rodar no nosso pczinho
+#CC=icc # intel noggers descomentar para rodar la no pczao
 
 RM=rm -f
 
@@ -8,9 +9,8 @@ EXEC=bitonic
 
 all: $(EXEC)
 
-$(EXEC):
-	$(CC) $(FLAGS) $(EXEC).cc -c -o $(EXEC).o
-	$(CC) $(FLAGS) $(EXEC).o -o $(EXEC)
+$(EXEC): $(EXEC).c
+	$(CC) $(FLAGS) $(EXEC).c -o $(EXEC) -lm
 
 clean:
 	$(RM) $(EXEC).o $(EXEC)
