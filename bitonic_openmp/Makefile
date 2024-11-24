@@ -1,4 +1,4 @@
-FLAGS=-O3 -fopenmp # adicionado -fopenmp pra rodar openmp e -lm pq tava bugado
+FLAGS=-fopenmp #-O3 # adicionado -fopenmp pra rodar openmp e -lm pq tava bugado
 
 CC=gcc # adicionei gcc pra rodar no nosso pczinho
 #CC=icc # intel noggers descomentar para rodar la no pczao

@@ -122,14 +122,14 @@ void bitonicMerge(int lo, int cnt, int dir, int cnt_threshold) {
 	int k = cnt/2;
 	int i;
 
-	#pragma omp parallel for
+	#pragma omp schedule(static)
 	for(i = lo; i < lo+k; i++)
 		compare(i, i+k, dir);
 
 	if (cnt > cnt_threshold) {
-		#pragma omp task firstprivate(k, lo)
+		#pragma omp task firstprivate(lo, k, dir, cnt_threshold)
 		bitonicMerge(lo, k, dir, cnt_threshold);
-		#pragma omp task firstprivate(k, lo)
+		#pragma omp task firstprivate(lo, k, dir, cnt_threshold)
 		bitonicMerge(lo+k, k, dir, cnt_threshold);
 		#pragma omp taskwait
 		return;
@@ -151,10 +151,10 @@ void recBitonicSort(int lo, int cnt, int dir, int cnt_threshold) {
 	int k = cnt/2;
 
 	if (cnt>cnt_threshold) {
-		#pragma omp task firstprivate(lo, k)
+		#pragma omp task firstprivate(lo, k, dir, cnt_threshold)
 		recBitonicSort(lo, k, ASCENDING, cnt_threshold);
 
-		#pragma omp task firstprivate(lo, k)
+		#pragma omp task firstprivate(lo, k, dir, cnt_threshold)
 		recBitonicSort(lo+k, k, DESCENDING, cnt_threshold);
 
 		#pragma omp taskwait
@@ -187,6 +187,10 @@ int main(int argc, char **argv) {
   const char *input_file = argv[1];
   int num_threads = atoi(argv[2]);
   int cnt_threshold = atoi(argv[3]);
+
+  #ifdef _OPENMP
+  omp_set_num_threads(num_threads);
+  #endif
 
   char output_file[256];
   generate_output_filename(input_file, output_file);
