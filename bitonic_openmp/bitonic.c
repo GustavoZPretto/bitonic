@@ -238,14 +238,23 @@ int main(int argc, char **argv) {
   // Cria nome do arquivo de resultado "{nome_do_input}-{numero_de_threads}threads.txt"
   char *input_file_name = strrchr(argv[1], '/');
   char result_file_name[128];
-  sprintf(result_file_name, "./results%s-%sthreads.txt", input_file_name, argv[2]);
+  sprintf(result_file_name, "./results%s", input_file_name);
+
+  // Verifica se OpenMP está sendo empregado
+  int openmp = 0;
+  #ifdef _OPENMP
+  openmp = 1;
+  #endif
 
   // Caso já existe o arquivo de resultado, adiciona o tempo dessa nova run
   if(access(result_file_name, F_OK) == 0){
     FILE *arq = fopen(result_file_name, "a");
-    
-    fprintf(arq, "Time: %f seconds\n", time_spent);
-    
+    if(openmp==1){
+      fprintf(arq, "Paralelo - %s Threads - Time: %f seconds\n", argv[2], time_spent);
+    }
+    else{
+      fprintf(arq, "Serial - %s Threads - Time: %f seconds\n", argv[2], time_spent);
+    }
     fclose(arq); 
   }
   // Caso contrário cria o arquivo do zero
@@ -253,10 +262,14 @@ int main(int argc, char **argv) {
     FILE *arq = fopen(result_file_name, "w");
     
     fprintf(arq, "Input file: %s\n", input_file_name);
-    fprintf(arq, "Number of threads: %d\n", num_threads);
     fprintf(arq, "Array size: %ld\n", N);
-    fprintf(arq, "String size: %ld\n", LENGTH);
-    fprintf(arq, "Time: %f seconds\n", time_spent);
+    fprintf(arq, "String size: %ld\n", LENGTH-1);
+    if(openmp==1){
+      fprintf(arq, "Paralelo - %s Threads - Time: %f seconds\n", argv[2], time_spent);
+    }
+    else{
+      fprintf(arq, "Serial - %s Threads - Time: %f seconds\n", argv[2], time_spent);
+    }
     
     fclose(arq);
   }
