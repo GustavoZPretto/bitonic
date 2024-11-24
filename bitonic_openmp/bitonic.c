@@ -180,8 +180,8 @@ void BitonicSort(int cnt_threshold) {
 
 /** the main program **/ 
 int main(int argc, char **argv) {
-  if (argc != 3) {
-    printf("Usage: %s <input_file> <num_threads>\n", argv[0]);
+  if (argc != 4) {
+    printf("Usage: %s <input_file> <num_threads> <cnt_threshold>\n", argv[0]);
     return EXIT_FAILURE;
   }
   const char *input_file = argv[1];
