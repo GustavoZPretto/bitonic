@@ -46,14 +46,15 @@ Gera os gráficos utilizando os arquivos de resultados em bitonic_openmp/results
 - **LENGTH**: Comprimento máximo de cada string lida do arquivo de entrada.
 - **N**: Número de strings lidas do arquivo de entrada (deve ser uma potência de 2).
 
-## Uso do script bash "run_tests.sh"
+## Uso dos script bash em /bitonic_openmp
+### run_tests.sh
 Recebe 3 argumentos: potência do tamanho de arquivo de teste
                      numero máximo de threads
                      valor de threshold
 
 Por exemplo, quero rodar arquivos de tamanho até 2048, com até 8 threads e valor de threshold 10000.
 ```sh
-$ ./run_testes.sh 11 16 100 
+$ ./run_tests.sh 11 16 100 
 ```      
                   |  |  |
                   |  |  --> valor the threshold em 10000 (valor utilizado nos testes)
@@ -61,3 +62,10 @@ $ ./run_testes.sh 11 16 100
                   |  --> Variando número de threads em até 8: [1,2,4,6,8]
                   |
                   --> Variando arquivos de entrada até 2048 (2**11): [sd_128x7, sd_256x7, sd_512x7, sd_1024x7, sd_2048x7]
+
+### run_test.sh
+Funciona como o outro porém roda o teste para apenas um arquivo especificado.
+Por exemplo, quero rodar arquivos de tamanho até 2048, com até 8 threads e valor de threshold 10000.
+```sh
+$ ./run_test.sh 2048 16 100 
+```     
