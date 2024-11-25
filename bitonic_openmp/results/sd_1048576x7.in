@@ -1,0 +1,16 @@
+Input file: /sd_1048576x7.in
+Array size: 1048576
+String size: 7
+Paralelo - 1 Threads - CPU Time: 1.545015 seconds - Real Time 1.545129 seconds
+Paralelo - 2 Threads - CPU Time: 1.581218 seconds - Real Time 0.791833 seconds
+Paralelo - 4 Threads - CPU Time: 1.628557 seconds - Real Time 0.564787 seconds
+Paralelo - 6 Threads - CPU Time: 1.713097 seconds - Real Time 0.447555 seconds
+Paralelo - 8 Threads - CPU Time: 1.808152 seconds - Real Time 0.372651 seconds
+Paralelo - 10 Threads - CPU Time: 1.953810 seconds - Real Time 0.311029 seconds
+Paralelo - 12 Threads - CPU Time: 2.271076 seconds - Real Time 0.314920 seconds
+Paralelo - 14 Threads - CPU Time: 2.167150 seconds - Real Time 0.248079 seconds
+Paralelo - 16 Threads - CPU Time: 2.398177 seconds - Real Time 0.231583 seconds
+Paralelo - 18 Threads - CPU Time: 2.378790 seconds - Real Time 0.229818 seconds
+Paralelo - 20 Threads - CPU Time: 2.725270 seconds - Real Time 0.205369 seconds
+Paralelo - 22 Threads - CPU Time: 2.801939 seconds - Real Time 0.200308 seconds
+Paralelo - 24 Threads - CPU Time: 2.980328 seconds - Real Time 0.196190 seconds

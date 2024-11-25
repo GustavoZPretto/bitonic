@@ -1,0 +1,16 @@
+Input file: /sd_8192x7.in
+Array size: 8192
+String size: 7
+Paralelo - 1 Threads - CPU Time: 0.005552 seconds - Real Time 0.005572 seconds
+Paralelo - 2 Threads - CPU Time: 0.010046 seconds - Real Time 0.005565 seconds
+Paralelo - 4 Threads - CPU Time: 0.019080 seconds - Real Time 0.005782 seconds
+Paralelo - 6 Threads - CPU Time: 0.028093 seconds - Real Time 0.005921 seconds
+Paralelo - 8 Threads - CPU Time: 0.037991 seconds - Real Time 0.005739 seconds
+Paralelo - 10 Threads - CPU Time: 0.046234 seconds - Real Time 0.005958 seconds
+Paralelo - 12 Threads - CPU Time: 0.056489 seconds - Real Time 0.006047 seconds
+Paralelo - 14 Threads - CPU Time: 0.066533 seconds - Real Time 0.006133 seconds
+Paralelo - 16 Threads - CPU Time: 0.077416 seconds - Real Time 0.006327 seconds
+Paralelo - 18 Threads - CPU Time: 0.086019 seconds - Real Time 0.006905 seconds
+Paralelo - 20 Threads - CPU Time: 0.097810 seconds - Real Time 0.007014 seconds
+Paralelo - 22 Threads - CPU Time: 0.107009 seconds - Real Time 0.006961 seconds
+Paralelo - 24 Threads - CPU Time: 0.165568 seconds - Real Time 0.009322 seconds

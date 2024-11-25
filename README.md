@@ -16,6 +16,14 @@ Diretório com o código padrão escrito pelo Pretto com "standart" em vez de "s
 
 ### /inputs
 Diretório com os arquivos de entrada (*.in)
+Como os arquivos são grandes, estamos armazenando com git lfs. Para baixa-los
+sudo apt install git-lfs
+```sh
+$ sudo apt install git-lfs
+$ git lfs install
+$ git lfs pull
+```
+
 
 ### /outputs
 Diretório com os arquivos de saída (*.out) gerados pelo bitonic

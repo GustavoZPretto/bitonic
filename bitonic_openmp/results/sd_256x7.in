@@ -1,0 +1,16 @@
+Input file: /sd_256x7.in
+Array size: 256
+String size: 7
+Paralelo - 1 Threads - CPU Time: 0.000088 seconds - Real Time 0.000091 seconds
+Paralelo - 2 Threads - CPU Time: 0.000203 seconds - Real Time 0.000136 seconds
+Paralelo - 4 Threads - CPU Time: 0.000179 seconds - Real Time 0.000177 seconds
+Paralelo - 6 Threads - CPU Time: 0.000237 seconds - Real Time 0.000240 seconds
+Paralelo - 8 Threads - CPU Time: 0.000272 seconds - Real Time 0.000276 seconds
+Paralelo - 10 Threads - CPU Time: 0.000346 seconds - Real Time 0.000352 seconds
+Paralelo - 12 Threads - CPU Time: 0.000322 seconds - Real Time 0.000326 seconds
+Paralelo - 14 Threads - CPU Time: 0.001983 seconds - Real Time 0.000412 seconds
+Paralelo - 16 Threads - CPU Time: 0.000477 seconds - Real Time 0.000543 seconds
+Paralelo - 18 Threads - CPU Time: 0.002539 seconds - Real Time 0.000489 seconds
+Paralelo - 20 Threads - CPU Time: 0.000525 seconds - Real Time 0.000528 seconds
+Paralelo - 22 Threads - CPU Time: 0.000982 seconds - Real Time 0.000621 seconds
+Paralelo - 24 Threads - CPU Time: 0.118977 seconds - Real Time 0.005429 seconds
