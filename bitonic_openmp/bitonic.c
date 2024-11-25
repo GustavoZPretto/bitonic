@@ -215,10 +215,12 @@ int main(int argc, char **argv) {
 
   for (i = 0; i < N; i++)
     fscanf(fin, "%s", strings + (i * LENGTH));
-
-  clock_t start = clock();
+ 
+  double real_time_start = omp_get_wtime(); 
+  clock_t cpu_time_start = clock();
   BitonicSort(cnt_threshold);
-  clock_t end = clock();
+  clock_t cpu_time_end = clock();
+  double real_time_end = omp_get_wtime(); 
 
   for (i = 0; i < N; i++)
     fprintf(fout, "%s\n", strings + (i * LENGTH));
@@ -228,7 +230,8 @@ int main(int argc, char **argv) {
 
   // esse trecho aq debaixo adicionei tb
   // ja que a gente vai rodar no pczao (pra gente nao terq ficar monkeying around procurando essas saidas)
-  double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
+  double time_spent = (double)(cpu_time_end - cpu_time_start) / CLOCKS_PER_SEC;
+  double real_time_spent = real_time_end - real_time_start;
 
   // Verifica se o diretório results existe, caso contrário, cria 
   struct stat st = {0};
@@ -254,10 +257,10 @@ int main(int argc, char **argv) {
   if(access(result_file_name, F_OK) == 0){
     FILE *arq = fopen(result_file_name, "a");
     if(openmp==1){
-      fprintf(arq, "Paralelo - %s Threads - Time: %f seconds\n", argv[2], time_spent);
+      fprintf(arq, "Paralelo - %s Threads - CPU Time: %f seconds - Real Time %f seconds\n", argv[2], time_spent, real_time_spent);
     }
     else{
-      fprintf(arq, "Serial - %s Threads - Time: %f seconds\n", argv[2], time_spent);
+      fprintf(arq, "Serial - %s Threads - CPU Time: %f seconds - Real Time %f seconds\n", argv[2], time_spent, real_time_spent);
     }
     fclose(arq); 
   }
@@ -269,10 +272,10 @@ int main(int argc, char **argv) {
     fprintf(arq, "Array size: %ld\n", N);
     fprintf(arq, "String size: %ld\n", LENGTH-1);
     if(openmp==1){
-      fprintf(arq, "Paralelo - %s Threads - Time: %f seconds\n", argv[2], time_spent);
+      fprintf(arq, "Paralelo - %s Threads - CPU Time: %f seconds - Real Time %f seconds\n", argv[2], time_spent, real_time_spent);
     }
     else{
-      fprintf(arq, "Serial - %s Threads - Time: %f seconds\n", argv[2], time_spent);
+      fprintf(arq, "Serial - %s Threads - CPU Time: %f seconds - Real Time %f seconds\n", argv[2], time_spent, real_time_spent);
     }
     
     fclose(arq);
