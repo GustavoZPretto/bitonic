@@ -33,13 +33,13 @@ Diretório com os arquivos de saída (*.out) gerados pelo bitonic
 ## generate_inputs.py
 Script para gerar arquivos de entrada baseados em parâmetros configuráveis.  
 Para mais informações sobre os parâmetros:
+```sh
+$ python generate_inputs.py --help
+```
 
 ## graphics.ipynb
 Gera os gráficos utilizando os arquivos de resultados em bitonic_openmp/results e salva na pasta graphics
 
-```sh
-$ python generate_inputs.py --help
-```
 
 ## Significado das Variáveis do Bitonic
 
@@ -51,7 +51,7 @@ Recebe 3 argumentos: potência do tamanho de arquivo de teste
                      numero máximo de threads
                      valor de threshold
 
-Por exemplo, quero rodar arquivos de tamanho até 2048, com até 8 threads e valor de threshold 100.
+Por exemplo, quero rodar arquivos de tamanho até 2048, com até 8 threads e valor de threshold 10000.
 ```sh
 $ ./run_testes.sh 11 16 100 
 ```      
